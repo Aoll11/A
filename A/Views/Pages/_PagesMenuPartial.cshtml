@@ -1,0 +1,9 @@
+﻿@model IEnumerable<A.Models.ViewModels.Pages.PageVM>
+
+    
+
+@foreach (var item in Model)
+{
+    <li class="nav-item"> <a class="nav-link" href="/@item.Slug"> @item.Title </a>  </li>
+}
+

@@ -1,0 +1,7 @@
+﻿@model A.Models.Cart.CartVM
+
+<div class="ajaxcart">
+    You cart: @Model.Quantity item(s) - @Model.Price $
+    <br/>
+    @Html.ActionLink("Checkout", "Index")
+</div>
