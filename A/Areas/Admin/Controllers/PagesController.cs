@@ -179,7 +179,7 @@ namespace A.Areas.Admin.Controllers
             //Установить сообщение в TempData
             TempData["SM"] = "You have edited the page.";
 
-            //Переадресация пользователя.
+            //Переадресация пользователя. Переадрисовывает на GET метод!!!
             return RedirectToAction("EditPage");
         }
 
@@ -303,7 +303,7 @@ namespace A.Areas.Admin.Controllers
 
             //Переадресация пользователя
 
-            return RedirectToAction("EditSidebar"); 
+            return RedirectToAction("EditSidebar"); //Переадресовываем на одноимённый GET метод!  
         }
 
     }

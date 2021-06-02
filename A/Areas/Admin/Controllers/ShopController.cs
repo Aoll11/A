@@ -36,7 +36,7 @@ namespace A.Areas.Admin.Controllers
                 return View(categoryVMList);
         }
 
-        //9. 
+        //9. GET отсутствует, так как обращение идёт из Ajax в Categories
         // POST: Admin/Shop/AddNewCategory
         [HttpPost]
         public string AddNewCategory(string catName)
@@ -322,7 +322,7 @@ namespace A.Areas.Admin.Controllers
             {
                 // Инициализируем list и заполняем данными
                 listOfProductVM = db.Products.ToArray()
-                    .Where(x => catId == null || catId == 0 || x.CategoryId == catId) //  || или это конечно, но только что выбирается по первым двум или?
+                    .Where(x => catId == null || catId == 0 || x.CategoryId == catId) //  catId == null || catId == 0 не накладывают никаких ограничений на список, так как не связаны с передаваемыми по очереди в were элементами.. Т.е. если catId таков, то гребём всё.
                     .Select(x => new ProductVM(x))
                     .ToList();
 

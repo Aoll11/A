@@ -12,7 +12,7 @@ $(function () {
 
     /* Пишем функцию на отлов нажатия Enter */
     newCatTextInput.keyup(function (e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13) { /* 13 кон "интер", отлавливает нажатие на "ввод" */
             newCatA.click();
         }
     });

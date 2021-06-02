@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+// 6.
 namespace A.Models.ViewModels.Pages
 {
     public class SidebarVM

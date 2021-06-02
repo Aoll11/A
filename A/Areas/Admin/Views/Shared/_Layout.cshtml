@@ -16,6 +16,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
+
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     @Html.ActionLink("Pages", "Index", "Pages", "", new { @class = "nav-link" })
@@ -30,10 +31,9 @@
                     @Html.ActionLink("Products", "Products", "Shop", "", new { @class = "nav-link" })   <!--15-->
                 </li>
             </ul>
-
             <!--New right menu-->
-
-            <ul class="navbar-nav ml-auto"> <!--2-->
+            <ul class="navbar-nav ml-auto">
+                <!--2-->
                 <li>
                     <a href="/" class="navbar-brand" target="_blank">Shopping Cart</a>
                 </li>
@@ -41,8 +41,8 @@
             </ul>
 
             @*<span class="navbar-text">
-                    Navbar text with an inline element
-                </span>*@
+            Navbar text with an inline element
+        </span>*@
         </div>
     </nav>
     <div class="container body-content">
