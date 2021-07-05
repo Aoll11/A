@@ -7,7 +7,7 @@ using System.Web;
 namespace A.Models.Data
 {
     // 11.
-    [Table("tblProducts")]
+    [Table("tblProducts")] // Нужно для однозначной связи с таблицей из БД
     public class ProductDTO
     {
         public int Id { get; set; }

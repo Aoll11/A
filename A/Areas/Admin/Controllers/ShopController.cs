@@ -228,7 +228,9 @@ namespace A.Areas.Admin.Controllers
             #region Upload Image
 
             // Создать необходимые ссылки директорий, формируем пути
-            var originalDirectory = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Images\\Uploads"));
+            var originalDirectory = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Images\\Uploads")); //Длинен путь - имена длинные хранить не желает. Но пока так.
+            //var originalDirectory = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Img\\Upl"));
+
 
             var pathString1 = Path.Combine(originalDirectory.ToString(), "Products" );  //объединять массив строк в путь.
             var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
@@ -277,6 +279,14 @@ namespace A.Areas.Admin.Controllers
                 // Объявляем переменную с именем изображения
                 string imageName = file.FileName;
 
+                // Проверяем длинну имени, дабы исключить ошибку от слишком длинных имён. 
+                int AllowedImgNameLength = 120; // допустимая длина имени 
+                if(imageName.Length > AllowedImgNameLength)
+                // Укорачиваем имя до допустимой длины.
+                {
+                    imageName = imageName.Remove(AllowedImgNameLength - 16, imageName.Length - AllowedImgNameLength); // 16 - символов для номера фото (находится в конце) и расширение файла
+                }
+                
                 // Сохраняем имя изображения в модель DTO 
                 using (Db db = new Db())
                 {
@@ -478,6 +488,15 @@ namespace A.Areas.Admin.Controllers
                 // Сохраняем имя изображения
                 string imageName = file.FileName;
 
+                // Проверяем длинну имени, дабы исключить ошибку от слишком длинных имён. 
+                int AllowedImgNameLength = 120; // допустимая длина имени 
+                if (imageName.Length > AllowedImgNameLength)
+                // Укорачиваем имя до допустимой длины.
+                {
+                    imageName = imageName.Remove(AllowedImgNameLength - 16, imageName.Length - AllowedImgNameLength); // 16 - символов для номера фото (находится в конце) и расширение файла
+                }
+
+
                 using (Db db = new Db())
                 {
                     ProductDTO dto = db.Products.Find(id);
@@ -551,9 +570,20 @@ namespace A.Areas.Admin.Controllers
                     string pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
 
 
+                    // Объявляем переменную с именем изображения
+                    string imageName = file.FileName;
+
+                    // Проверяем длинну имени, дабы исключить ошибку от слишком длинных имён. 
+                    int AllowedImgNameLength = 120; // допустимая длина имени 
+                    if (imageName.Length > AllowedImgNameLength)
+                    // Укорачиваем имя до допустимой длины.
+                    {
+                        imageName = imageName.Remove(AllowedImgNameLength - 16, imageName.Length - AllowedImgNameLength); // 16 - символов для номера фото (находится в конце) и расширение файла
+                    }
+
                     // Назначаем пути изображений
-                    var path = string.Format($"{pathString1}\\{file.FileName}");
-                    var path2 = string.Format($"{pathString2}\\{file.FileName}");
+                    var path = string.Format($"{pathString1}\\{imageName}");
+                    var path2 = string.Format($"{pathString2}\\{imageName}");
 
                     // Сохраняем оригинальные и уменьшенные копии
                     file.SaveAs(path);
