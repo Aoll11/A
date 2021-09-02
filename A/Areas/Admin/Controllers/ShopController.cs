@@ -490,8 +490,9 @@ namespace A.Areas.Admin.Controllers
 
                 // Проверяем длинну имени, дабы исключить ошибку от слишком длинных имён. 
                 int AllowedImgNameLength = 120; // допустимая длина имени 
+
+                // Если длиннее - укорачиваем имя до допустимой длины.
                 if (imageName.Length > AllowedImgNameLength)
-                // Укорачиваем имя до допустимой длины.
                 {
                     imageName = imageName.Remove(AllowedImgNameLength - 16, imageName.Length - AllowedImgNameLength); // 16 - символов для номера фото (находится в конце) и расширение файла
                 }
@@ -544,9 +545,8 @@ namespace A.Areas.Admin.Controllers
 
             if (Directory.Exists(pathString))
                 Directory.Delete(pathString, true); // Удаление как каталога, так и подкаталогов
+            
             // Переадресуем пользователя.
-
-
             return RedirectToAction("Products");
         }
 
@@ -564,6 +564,25 @@ namespace A.Areas.Admin.Controllers
                 // Проверяем на Null
                 if (file != null && file.ContentLength > 0)
                 {
+                    // Получаем расширение файла.
+                    string ext = file.ContentType.ToLower();
+
+                    // Проверяем расширение файла. DropzoneJS пропускает .webp, однако его не принимает WebImage. Потому таковые останутся без иконки. 
+                    // А не имея иконок не попадут в выдачу, хотя и останутся записанными.
+                    if (ext != "image/jpg" &&
+                        ext != "image/jpeg" &&
+                        ext != "image/pjpeg" &&
+                        ext != "image/gif" &&
+                        ext != "image/x-png" &&
+                        ext != "image/png")
+                    {
+                        // Выдать пустую тоже не можем, поскольку сторонний плагин для пролистования изображений .webp тоже не видит. Потому просто пропускаем его.
+                        //WebImage img = new WebImage("~/Content/img/no_image.png");
+                        //img.Resize(200, 200).Crop(1, 1);
+                        //img.Save(path2);
+                        continue;
+                    }
+                                 
                     // Назначаем все пути к директориям
                     var originalDirectory = new DirectoryInfo(string.Format($"{Server.MapPath(@"\")}Images\\Uploads"));
                     string pathString1 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
@@ -575,8 +594,9 @@ namespace A.Areas.Admin.Controllers
 
                     // Проверяем длинну имени, дабы исключить ошибку от слишком длинных имён. 
                     int AllowedImgNameLength = 120; // допустимая длина имени 
+
+                    // Если длиннее, то укорачиваем имя до допустимой длины.
                     if (imageName.Length > AllowedImgNameLength)
-                    // Укорачиваем имя до допустимой длины.
                     {
                         imageName = imageName.Remove(AllowedImgNameLength - 16, imageName.Length - AllowedImgNameLength); // 16 - символов для номера фото (находится в конце) и расширение файла
                     }
@@ -589,7 +609,7 @@ namespace A.Areas.Admin.Controllers
                     file.SaveAs(path);
 
                     WebImage img = new WebImage(file.InputStream);
-                    img.Resize(200, 200).Crop(1,1);
+                    img.Resize(200, 200).Crop(1, 1);
                     img.Save(path2);
                 }
             }

@@ -49,7 +49,7 @@
             <!--оба row нужны для корректного отображения картинок-->
             @foreach (var item in Model.GalleryImages)
             {
-                <div class="col-auto">
+                <div class="col-auto" style="margin-bottom:1%">
                     <a class="fancybox" rel="gallery1" href="/Images/Uploads/Products/@Model.Id/Gallery/@item">
                         <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@item" />
                     </a>
